@@ -14,7 +14,7 @@ import {
 } from "@/lib/one-piece-catalog";
 
 type Step = "ships" | "crew" | "isles" | "treasure";
-type VoyageSearch = { media: MediaType; ship?: Path; crew?: string; isle?: Experience; step?: Step };
+type VoyageSearch = { media: MediaType; ship?: Path | undefined; crew?: string | undefined; isle?: Experience | undefined; step?: Step | undefined };
 type Patch = Partial<Omit<VoyageSearch, "media">>;
 
 const SHIPS: { id: Path; sail: string }[] = [
@@ -107,7 +107,7 @@ function StageTitle({ chapter, title, sub }: { chapter: string; title: string; s
   );
 }
 
-function ShipsStep({ media, selected, onPick, onBack }: { media: string; selected?: Path; onPick: (p: Path) => void; onBack: () => void }) {
+function ShipsStep({ media, selected, onPick, onBack }: { media: string; selected?: Path | undefined; onPick: (p: Path) => void; onBack: () => void }) {
   return (
     <>
       <div className="mt-4"><button onClick={onBack} className={btnGhost}>‹ Back to the maps</button></div>
@@ -164,7 +164,7 @@ function CrewStep({ initial, onBack, onContinue }: { initial: Genre[]; onBack: (
   );
 }
 
-function IslesStep({ initial, onBack, onContinue }: { initial?: Experience; onBack: (i?: Experience) => void; onContinue: (i: Experience) => void }) {
+function IslesStep({ initial, onBack, onContinue }: { initial?: Experience | undefined; onBack: (i?: Experience) => void; onContinue: (i: Experience) => void }) {
   const [sel, setSel] = useState<Experience | undefined>(initial);
   return (
     <div className="mt-10 flex flex-1 flex-col">
@@ -204,6 +204,7 @@ function TreasureStep({ media, mediaLabel, path, crew, exp, onBack, onRestart }:
   const ranked = useMemo(() => rankTreasures(media, path, crew, exp), [media, path, crew.join(), exp]); // eslint-disable-line react-hooks/exhaustive-deps
   const [idx, setIdx] = useState(0);
   const t = ranked[idx % ranked.length];
+  if (!t) return null;
   return (
     <div className="mt-10 flex flex-1 flex-col">
       <StageTitle chapter="CHAPTER V" title="The Treasure" sub="Your perfect recommendation awaits…" />
