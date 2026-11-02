@@ -142,3 +142,67 @@
     color: var(--color-foreground);
   }
 }
+
+/* ===== CINEGUIDE / ONE PIECE design system ===== */
+:root {
+  --font-display: "Cinzel", "Times New Roman", serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --abyss: oklch(0.13 0.035 255);
+  --ocean: oklch(0.3 0.07 245);
+  --gold: oklch(0.8 0.12 80);
+  --gold-deep: oklch(0.62 0.12 70);
+  --parchment: oklch(0.9 0.04 80);
+  --sunset: oklch(0.72 0.16 55);
+  --mist: oklch(0.85 0.02 240);
+  --shadow-artefact: 0 24px 60px -20px oklch(0 0 0 / 0.8), 0 0 0 1px color-mix(in oklab, var(--gold) 35%, transparent);
+  --shadow-glow: 0 0 0 2px var(--gold), 0 0 50px -6px color-mix(in oklab, var(--gold) 70%, transparent);
+  --gradient-veil: linear-gradient(180deg, oklch(0.13 0.035 255 / 0.2) 0%, oklch(0.13 0.035 255 / 0.55) 55%, var(--abyss) 100%);
+  --gradient-gold: linear-gradient(180deg, var(--gold), var(--gold-deep));
+}
+@theme inline {
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --color-abyss: var(--abyss);
+  --color-ocean: var(--ocean);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-parchment: var(--parchment);
+  --color-sunset: var(--sunset);
+  --color-mist: var(--mist);
+}
+:root {
+  --background: var(--abyss);
+  --foreground: oklch(0.94 0.02 85);
+  --primary: var(--gold);
+  --primary-foreground: var(--abyss);
+  --muted-foreground: oklch(0.75 0.03 240);
+  --border: oklch(0.8 0.12 80 / 0.25);
+  --ring: var(--gold);
+}
+body { font-family: var(--font-sans); }
+
+@utility bg-veil { background-image: var(--gradient-veil); }
+@utility text-gold-gradient {
+  background-image: var(--gradient-gold);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+@utility shadow-artefact { box-shadow: var(--shadow-artefact); }
+@utility shadow-glow { box-shadow: var(--shadow-glow); }
+
+@keyframes cine-push { from { transform: scale(1.35) translateY(4%); filter: brightness(0.15); } 60% { filter: brightness(0.9); } to { transform: scale(1.05); filter: brightness(1); } }
+@keyframes cine-fade-up { from { opacity: 0; transform: translateY(24px); letter-spacing: 0.4em; } to { opacity: 1; transform: none; } }
+@keyframes cine-mist { from { opacity: 0; transform: translateY(40px) scale(0.92); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes cine-drift { 0%,100% { transform: translateX(-3%); } 50% { transform: translateX(3%); } }
+@keyframes cine-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes cine-zoom-in { from { opacity: 0; transform: scale(1.15); } to { opacity: 1; transform: none; } }
+
+@utility animate-cine-push { animation: cine-push 6.5s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-cine-title { animation: cine-fade-up 1.6s 2.6s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-cine-mist { animation: cine-mist 0.9s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-cine-drift { animation: cine-drift 18s ease-in-out infinite; }
+@utility animate-cine-bob { animation: cine-bob 5s ease-in-out infinite; }
+@utility animate-cine-zoom { animation: cine-zoom-in 1s cubic-bezier(.2,.7,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
