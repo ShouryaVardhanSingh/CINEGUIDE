@@ -1,24 +1,35 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import intro from "@/assets/op-intro.jpg";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "CINEGUIDE — Cinematic Media Discovery" },
+      { name: "description", content: "Discover your next movie, anime, show, manga, comic or novel through cinematic journeys." },
+      { property: "og:title", content: "CINEGUIDE — Cinematic Media Discovery" },
+      { property: "og:description", content: "Discover your next story through cinematic journeys." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="relative grid min-h-screen place-items-center overflow-hidden px-6">
+      <img src={intro} alt="" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover opacity-40" />
+      <div className="absolute inset-0 bg-veil" />
+      <div className="relative text-center">
+        <h1 className="font-display text-5xl tracking-[0.15em] text-gold-gradient sm:text-7xl">CINEGUIDE</h1>
+        <p className="mt-4 text-muted-foreground">A cinematic journey. One perfect recommendation.</p>
+        <Link
+          to="/one-piece"
+          className="mt-10 inline-flex rounded-sm border border-gold/60 px-8 py-3 font-display tracking-[0.3em] text-gold transition hover:bg-gold hover:text-abyss focus-visible:outline-none focus-visible:shadow-glow"
+        >
+          ONE PIECE
+        </Link>
+      </div>
+    </main>
   );
 }
