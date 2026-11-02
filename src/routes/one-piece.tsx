@@ -13,7 +13,7 @@ import { INTRO_SEEN_KEY, SHIP_PATHS, isMediaType, type MediaType } from "@/lib/o
 type Search = { media?: MediaType };
 
 export const Route = createFileRoute("/one-piece")({
-  validateSearch: (s: Record<string, unknown>): Search => (isMediaType(s.media) ? { media: s.media } : {}),
+  validateSearch: (s: Record<string, unknown>): Search => (isMediaType(s["media"]) ? { media: s["media"] } : {}),
   head: () => ({
     meta: [
       { title: "ONE PIECE — CINEGUIDE Voyage" },
