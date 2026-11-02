@@ -1,19 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import intro from "@/assets/op-intro.jpg";
-import ships from "@/assets/op-ships.jpg";
 import mMovies from "@/assets/map-movies.jpg";
 import mAnime from "@/assets/map-anime.jpg";
 import mShows from "@/assets/map-shows.jpg";
 import mManga from "@/assets/map-manga.jpg";
 import mComics from "@/assets/map-comics.jpg";
 import mNovels from "@/assets/map-novels.jpg";
-import { INTRO_SEEN_KEY, SHIP_PATHS, isMediaType, type MediaType } from "@/lib/one-piece";
+import { INTRO_SEEN_KEY, isMediaType, type MediaType } from "@/lib/one-piece";
+import { EXPERIENCES, GENRES, PATHS, type Experience, type Path } from "@/lib/one-piece-catalog";
+import { Voyage } from "@/components/one-piece/Voyage";
 
-type Search = { media?: MediaType };
+type Search = { media?: MediaType; ship?: Path; crew?: string; isle?: Experience; step?: Step };
+type Step = "ships" | "crew" | "isles" | "treasure";
+const STEPS: Step[] = ["ships", "crew", "isles", "treasure"];
 
 export const Route = createFileRoute("/one-piece")({
-  validateSearch: (s: Record<string, unknown>): Search => (isMediaType(s["media"]) ? { media: s["media"] } : {}),
+  validateSearch: (s: Record<string, unknown>): Search => {
+    if (!isMediaType(s["media"])) return {};
+    const out: Search = { media: s["media"] };
+    if ((PATHS as readonly unknown[]).includes(s["ship"])) out.ship = s["ship"] as Path;
+    if (typeof s["crew"] === "string") out.crew = s["crew"].split(",").filter((g) => (GENRES as readonly string[]).includes(g)).join(",") || undefined;
+    if ((EXPERIENCES as readonly unknown[]).includes(s["isle"])) out.isle = s["isle"] as Experience;
+    if ((STEPS as unknown[]).includes(s["step"])) out.step = s["step"] as Step;
+    return out;
+  },
   head: () => ({
     meta: [
       { title: "ONE PIECE — CINEGUIDE Voyage" },
@@ -39,7 +50,8 @@ const MAPS: { id: MediaType; label: string; img: string; tag: string; tilt: stri
 type Stage = "loading" | "intro" | "maps" | "leaving" | "ships";
 
 function OnePiece() {
-  const { media } = Route.useSearch();
+  const search = Route.useSearch();
+  const { media } = search;
   const navigate = Route.useNavigate();
   const [stage, setStage] = useState<Stage>("loading");
   const [picked, setPicked] = useState<MediaType | null>(media ?? null);
@@ -81,7 +93,15 @@ function OnePiece() {
 
   if (stage === "loading") return <div className="min-h-screen bg-abyss" />;
   if (stage === "intro") return <Intro onSkip={endIntro} />;
-  if (stage === "ships" && media) return <Ships media={media} onBack={back} />;
+  if (stage === "ships" && media)
+    return (
+      <Voyage
+        search={{ ...search, media }}
+        mediaLabel={MAPS.find((m) => m.id === media)!.label}
+        onUpdate={(patch) => navigate({ search: (prev) => ({ ...prev, ...patch }) })}
+        onBackToMaps={back}
+      />
+    );
   return (
     <Maps
       leaving={stage === "leaving"}
@@ -167,39 +187,3 @@ function Maps({ leaving, picked, onChoose, onReplay }: {
   );
 }
 
-function Ships({ media, onBack }: { media: MediaType; onBack: () => void }) {
-  const map = MAPS.find((m) => m.id === media)!;
-  return (
-    <main className="relative min-h-screen overflow-hidden bg-abyss animate-cine-zoom">
-      <img src={ships} alt="Four ships at sunset" width={1920} height={1088}
-        className="absolute inset-0 h-full w-full object-cover opacity-60" />
-      <div className="absolute inset-0 bg-veil" />
-      <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-5 py-10">
-        <header className="flex items-center justify-between">
-          <button onClick={onBack} className="rounded-sm border border-gold/50 px-4 py-2 text-sm text-gold transition hover:bg-gold hover:text-abyss focus-visible:outline-none focus-visible:shadow-glow">
-            ‹ Back to the maps
-          </button>
-          <span className="rounded-full border border-gold/40 bg-abyss/60 px-4 py-1 text-xs tracking-[0.25em] text-gold">
-            WORLD: {map.label.toUpperCase()}
-          </span>
-        </header>
-        <div className="mt-auto text-center">
-          <p className="text-sm tracking-[0.3em] text-muted-foreground">CHAPTER II</p>
-          <h1 className="mt-2 font-display text-3xl text-gold sm:text-5xl">The Four Ships</h1>
-          <p className="mt-3 text-foreground/80">Choose your path through the world of {map.label}.</p>
-          <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {SHIP_PATHS.map((s, i) => (
-              <li key={s} className="animate-cine-mist" style={{ animationDelay: `${300 + i * 120}ms` }}>
-                <button disabled title="Coming in the next chapter"
-                  className="w-full cursor-not-allowed rounded-md border border-gold/40 bg-abyss/70 px-4 py-4 font-display text-lg text-gold backdrop-blur">
-                  {s}
-                  <span className="mt-1 block font-sans text-xs text-muted-foreground">Coming soon</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </main>
-  );
-}
