@@ -11,7 +11,7 @@ import { INTRO_SEEN_KEY, isMediaType, type MediaType } from "@/lib/one-piece";
 import { EXPERIENCES, GENRES, PATHS, type Experience, type Path } from "@/lib/one-piece-catalog";
 import { Voyage } from "@/components/one-piece/Voyage";
 
-type Search = { media?: MediaType; ship?: Path; crew?: string; isle?: Experience; step?: Step };
+type Search = { media?: MediaType; ship?: Path | undefined; crew?: string | undefined; isle?: Experience | undefined; step?: Step | undefined };
 type Step = "ships" | "crew" | "isles" | "treasure";
 const STEPS: Step[] = ["ships", "crew", "isles", "treasure"];
 

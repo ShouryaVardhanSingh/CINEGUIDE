@@ -11,6 +11,6 @@ describe("treasure ranking", () => {
     }
   });
   it("puts the best path + crew + experience match first", () => {
-    expect(rankTreasures("movies", "scifi", ["psychological"], "think")[0].title).toBe("Interstellar");
+    expect(rankTreasures("movies", "scifi", ["psychological"], "think")[0]?.title).toBe("Interstellar");
   });
 });
