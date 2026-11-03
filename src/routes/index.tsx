@@ -1,13 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import intro from "@/assets/op-intro.jpg";
+import { createFileRoute } from "@tanstack/react-router";
+import { SiteNav } from "@/components/cineguide/SiteNav";
+import { HeroScene } from "@/components/cineguide/HeroScene";
+import { JourneyHeading } from "@/components/cineguide/JourneyHeading";
+import { FeatureCards } from "@/components/cineguide/FeatureCards";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CINEGUIDE — Cinematic Media Discovery" },
-      { name: "description", content: "Discover your next movie, anime, show, manga, comic or novel through cinematic journeys." },
-      { property: "og:title", content: "CINEGUIDE — Cinematic Media Discovery" },
-      { property: "og:description", content: "Discover your next story through cinematic journeys." },
+      { title: "CINEGUIDE — Begin your Journey" },
+      { name: "description", content: "CINEGUIDE is a cinematic media discovery world. Choose your adventure: One Piece, Review Box, or CINEGUIDE." },
+      { property: "og:title", content: "CINEGUIDE — Begin your Journey" },
+      { property: "og:description", content: "Step into a cinematic fantasy world of stories, reviews and discovery." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -16,20 +19,15 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const explore = () => document.getElementById("adventures")?.scrollIntoView({ behavior: "smooth", block: "center" });
   return (
-    <main className="relative grid min-h-screen place-items-center overflow-hidden px-6">
-      <img src={intro} alt="" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover opacity-40" />
-      <div className="absolute inset-0 bg-veil" />
-      <div className="relative text-center">
-        <h1 className="font-display text-5xl tracking-[0.15em] text-gold-gradient sm:text-7xl">CINEGUIDE</h1>
-        <p className="mt-4 text-muted-foreground">A cinematic journey. One perfect recommendation.</p>
-        <Link
-          to="/one-piece"
-          className="mt-10 inline-flex rounded-sm border border-gold/60 px-8 py-3 font-display tracking-[0.3em] text-gold transition hover:bg-gold hover:text-abyss focus-visible:outline-none focus-visible:shadow-glow"
-        >
-          ONE PIECE
-        </Link>
-      </div>
-    </main>
+    <div className="relative flex min-h-[100svh] flex-col overflow-hidden pb-12">
+      <HeroScene />
+      <SiteNav onExplore={explore} />
+      <main className="relative z-10 flex flex-1 flex-col justify-between gap-10 pt-4 md:pt-8">
+        <JourneyHeading />
+        <FeatureCards />
+      </main>
+    </div>
   );
 }

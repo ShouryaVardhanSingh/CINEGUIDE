@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CineguideRouteImport } from './routes/cineguide'
 import { Route as OnePieceRouteImport } from './routes/one-piece'
+import { Route as ReviewBoxRouteImport } from './routes/review-box'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CineguideRoute = CineguideRouteImport.update({
+  id: '/cineguide',
+  path: '/cineguide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnePieceRoute = OnePieceRouteImport.update({
@@ -22,31 +29,44 @@ const OnePieceRoute = OnePieceRouteImport.update({
   path: '/one-piece',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReviewBoxRoute = ReviewBoxRouteImport.update({
+  id: '/review-box',
+  path: '/review-box',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cineguide': typeof CineguideRoute
   '/one-piece': typeof OnePieceRoute
+  '/review-box': typeof ReviewBoxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cineguide': typeof CineguideRoute
   '/one-piece': typeof OnePieceRoute
+  '/review-box': typeof ReviewBoxRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cineguide': typeof CineguideRoute
   '/one-piece': typeof OnePieceRoute
+  '/review-box': typeof ReviewBoxRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/one-piece'
+  fullPaths: '/' | '/cineguide' | '/one-piece' | '/review-box'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/one-piece'
-  id: '__root__' | '/' | '/one-piece'
+  to: '/' | '/cineguide' | '/one-piece' | '/review-box'
+  id: '__root__' | '/' | '/cineguide' | '/one-piece' | '/review-box'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CineguideRoute: typeof CineguideRoute
   OnePieceRoute: typeof OnePieceRoute
+  ReviewBoxRoute: typeof ReviewBoxRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cineguide': {
+      id: '/cineguide'
+      path: '/cineguide'
+      fullPath: '/cineguide'
+      preLoaderRoute: typeof CineguideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/one-piece': {
       id: '/one-piece'
       path: '/one-piece'
@@ -65,12 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnePieceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/review-box': {
+      id: '/review-box'
+      path: '/review-box'
+      fullPath: '/review-box'
+      preLoaderRoute: typeof ReviewBoxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CineguideRoute: CineguideRoute,
   OnePieceRoute: OnePieceRoute,
+  ReviewBoxRoute: ReviewBoxRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
