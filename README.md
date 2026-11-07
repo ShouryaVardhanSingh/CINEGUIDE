@@ -1,24 +1,60 @@
-# ONE PIECE 
+# 🎬 CINEGUIDE
 
-Use this as your reference
+### Your Journey Through Stories, Worlds & Entertainment.
 
-This project was built with [Lovable](https://lovable.dev).
+CINEGUIDE is an entertainment discovery and review platform designed to help people explore stories across different forms of media.
 
-## Build with Lovable
+From movies and anime to dramas, sitcoms, cartoons and novels, CINEGUIDE aims to make discovering your next favourite story an engaging and personalised experience.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/ddf21fb4-3a0b-406b-9f2c-97c932da12bc).
+---
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## ✨ Project Vision
 
-## Development
+The goal of CINEGUIDE is to create more than an ordinary recommendation platform.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+It brings together three connected experiences:
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+1. **CINEGUIDE** – Discover and explore entertainment through a guided journey.
+2. **ONE PIECE** – A mystery-driven recommendation experience that helps users discover something worth watching or reading.
+3. **REVIEW BOX** – A dedicated space for exploring, writing and sharing media reviews.
+
+Each experience has its own identity while being part of the larger CINEGUIDE ecosystem.
+
+---
+
+## 🚀 Core Features
+
+### 1. CINEGUIDE
+An entertainment discovery experience covering multiple media categories:
+
+- Movies
+- Anime
+- Cartoons
+- Dramas
+- Sitcoms
+- Novels
+
+### 2. ONE PIECE
+A distinctive recommendation experience built around discovery and surprise.
+
+The intended experience includes:
+- Media-type selection
+- Genre and subgenre preferences
+- Mystery-based recommendations
+- Cinematic recommendation reveals
+
+### 3. REVIEW BOX
+A dedicated review experience intended to let users explore and share opinions about entertainment.
+
+---
+
+## 🏗️ Technology & Architecture
+
+The project is being developed with the following tools and services:
+
+| Technology | Purpose |
+|---|---|
+| Lovable | AI-assisted frontend development |
+| Supabase | Database, authentication and backend infrastructure |
+| GitHub | Source-code management and version control |
+| Vercel | Planned application deployment
